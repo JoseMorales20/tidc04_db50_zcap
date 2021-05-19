@@ -3,8 +3,18 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <jsp:include page="../templates/header.jsp"></jsp:include>
 <main class="container mt-6">
+	<c:if test="${mensaje !=null}">
+		<div class="columns is-centered">
+			<div class="column is-8">
+				<div class="notification is-primary">
+					<p>${mensaje}</p>
+				</div>
+			</div>
+		</div>
+	</c:if>
 	<div class="columns is-centered">
 		<div class="column is-8">
+		<c:if test="${consolas.size()>0}">
 		  <form  method="POST" action="AgregarJuegoController.do">
 			<div class="card">
 				<div class="card-header has-background-warning">
@@ -27,7 +37,11 @@
 						<label for="consola-select" class="label">Consola</label>
 						<div class="control">
 							<div class="select">
-								<select id="consola-select" name="consola-select"></select>
+								<select id="consola-select" name="consola-select">
+								 <c:forEach items="${consolas}" var="consola">
+									<option value="${consola.nombre}">${consola.nombre}</option>
+								 </c:forEach>
+							    </select>
 							</div>
 						</div>
 					</div>
@@ -38,7 +52,7 @@
 								<input type="radio" name="apto-radio" value="si" />Si
 							</label>
 							<label class="radio">
-								<input type="radio" name="apto-radio" value="no" />No	
+								<input type="radio" name="apto-radio" checked value="no" />No	
 							</label>
 						</div>
 					</div>
@@ -62,6 +76,13 @@
 				</div>
 			</div>
 		  </form>
+		 </c:if>
+		 <c:if test="${consolas.size() == 0}">
+		 	<div class="notification is-link">
+		 		<p>Para poder ingresar un juego requiere ingresar al menos 1 consola</p>
+		 		<p>puede ingresar una<a href="AgregarConsolaController.do"> aqui</a></p>
+		 	</div>
+		 </c:if>	 
 		</div>
 	</div>
 </main>
